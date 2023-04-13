@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private List<UserDTO> storage = new ArrayList<>();
+    private final List<UserDTO> storage = new ArrayList<>();
     {
         storage.add(new UserDTO(UUID.randomUUID(), "Ball", 12));
         storage.add(new UserDTO(UUID.randomUUID(), "Green", 14));
