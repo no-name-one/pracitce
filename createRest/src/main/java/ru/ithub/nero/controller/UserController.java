@@ -1,6 +1,5 @@
 package ru.ithub.nero.controller;
 
-import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 import ru.ithub.nero.model.UserDTO;
 import ru.ithub.nero.service.UserService;

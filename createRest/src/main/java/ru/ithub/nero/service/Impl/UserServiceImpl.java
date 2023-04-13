@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private interface Messages {
-        String ALREADY_EXIST = "User already exist with username: %s";
+        String ALREADY_EXIST_WITH_USERNAME= "User already exist with username: %s";
         String NOT_FOUND_WITH_USERNAME = "User doesn't exist with username: %s";
         String NOT_FOUND_WITH_ID = "User not found with id: %s";
     }
@@ -31,19 +31,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getByID(UUID id) {
-//        List<User> collect = new ArrayList<>();
-        for (UserDTO user : storage) {
-            if (user.getUuid().equals(id)) {
-                return user;
+        for (UserDTO userDTO : storage) {
+            if(userDTO.getUuid().equals(id)) {
+                return userDTO;
             }
         }
-
         throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, id));
     }
 
     private boolean existById(UUID id) {
-        for (UserDTO user : storage) {
-            if (user.getUuid().equals(id)) {
+        for (UserDTO userDTO : storage) {
+            if (userDTO.getUuid().equals(id)) {
                 return true;
             }
         }
@@ -51,55 +49,54 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean existByUserName(String username) {
-        for (UserDTO user : storage) {
-            if (user.getUserName().equals(username)) {
+        for (UserDTO userDTO : storage) {
+            if (userDTO.getUsername().equals(username)) {
                 return true;
             }
         }
         return false;
     }
     @Override
-    public UserDTO create(UserDTO user) {
-        for (UserDTO existing : storage) {
-            if (existing.getUserName().equals(user.getUserName())) {
-                throw new RuntimeException(String.format(Messages.ALREADY_EXIST, user.getUserName()));
-            }
+    public UserDTO create(UserDTO userDTO) {
+        if (existByUserName(userDTO.getUsername())) {
+            throw new RuntimeException(String.format(Messages.ALREADY_EXIST_WITH_USERNAME, userDTO.getUsername()));
         }
 
-        user.setUuid(UUID.randomUUID());
-        storage.add(user);
-        return user;
+        userDTO.setUuid(UUID.randomUUID());
+        storage.add(userDTO);
+
+        return userDTO;
     }
 
     @Override
-    public UserDTO update(UserDTO user) {
+    public UserDTO update(UserDTO userDTO) {
         for (UserDTO existing : storage) {
-            if (existById(user.getUuid())) {
-
-                if (!existByUserName(user.getUserName())) {
-                    existing.setUserName(user.getUserName());
+            if (existing.getUuid().equals(userDTO.getUuid())) {
+                if (!existByUserName(userDTO.getUsername())) {
+                    existing.setUsername(userDTO.getUsername());
                 } else {
-                    throw new RuntimeException(String.format(Messages.ALREADY_EXIST, user.getUserName()));
+                    throw new RuntimeException(String.format(Messages.ALREADY_EXIST_WITH_USERNAME, userDTO.getUsername()));
                 }
 
-                if (user.getAge() > 0) {
-                    existing.setAge(user.getAge());
+                if (userDTO.getAge() > 0) {
+                    existing.setAge(userDTO.getAge());
                 }
 
                 break;
             }
 
-            throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, user.getUuid()));
+            throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, userDTO.getUuid()));
         }
-        return user;
+
+        return userDTO;
     }
 
     @Override
     public void deleteById(UUID id) {
         boolean isDeleted = false;
-        for (UserDTO user : storage) {
-            if (user.getUuid().equals(id)) {
-                storage.remove(user);
+        for (UserDTO userDTO : storage) {
+            if (userDTO.getUuid().equals(id)) {
+                storage.remove(userDTO);
                 isDeleted = true;
                 break;
             }
