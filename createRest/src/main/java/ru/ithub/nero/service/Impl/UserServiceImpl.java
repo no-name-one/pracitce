@@ -1,7 +1,9 @@
 package ru.ithub.nero.service.Impl;
 
 import org.springframework.stereotype.Service;
-import ru.ithub.nero.model.UserDTO;
+import ru.ithub.nero.model.exception.CustomException;
+import ru.ithub.nero.model.exception.ExceptionMessage;
+import ru.ithub.nero.model.dto.UserDto;
 import ru.ithub.nero.service.UserService;
 
 import java.util.ArrayList;
@@ -10,37 +12,31 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final List<UserDTO> storage = new ArrayList<>();
+    private final List<UserDto> storage = new ArrayList<>();
     {
-        storage.add(new UserDTO(UUID.randomUUID(), "Ball", 12));
-        storage.add(new UserDTO(UUID.randomUUID(), "Green", 14));
-        storage.add(new UserDTO(UUID.randomUUID(), "Carry", 20));
-        storage.add(new UserDTO(UUID.randomUUID(), "Moon", 10));
-    }
-
-    private interface Messages {
-        String ALREADY_EXIST_WITH_USERNAME= "User already exist with username: %s";
-        String NOT_FOUND_WITH_USERNAME = "User doesn't exist with username: %s";
-        String NOT_FOUND_WITH_ID = "User not found with id: %s";
+        storage.add(new UserDto(UUID.randomUUID(), "Ball", 12));
+        storage.add(new UserDto(UUID.randomUUID(), "Green", 14));
+        storage.add(new UserDto(UUID.randomUUID(), "Carry", 20));
+        storage.add(new UserDto(UUID.randomUUID(), "Moon", 10));
     }
 
     @Override
-    public List<UserDTO> findAll() {
+    public List<UserDto> findAll() {
         return new ArrayList<>(storage);
     }
 
     @Override
-    public UserDTO getByID(UUID id) {
-        for (UserDTO userDTO : storage) {
+    public UserDto getByID(UUID id) {
+        for (UserDto userDTO : storage) {
             if(userDTO.getUuid().equals(id)) {
                 return userDTO;
             }
         }
-        throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, id));
+        throw new CustomException(ExceptionMessage.NOT_FOUND_WITH_ID);
     }
 
     private boolean existById(UUID id) {
-        for (UserDTO userDTO : storage) {
+        for (UserDto userDTO : storage) {
             if (userDTO.getUuid().equals(id)) {
                 return true;
             }
@@ -49,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean existByUserName(String username) {
-        for (UserDTO userDTO : storage) {
+        for (UserDto userDTO : storage) {
             if (userDTO.getUsername().equals(username)) {
                 return true;
             }
@@ -57,9 +53,9 @@ public class UserServiceImpl implements UserService {
         return false;
     }
     @Override
-    public UserDTO create(UserDTO userDTO) {
+    public UserDto create(UserDto userDTO) {
         if (existByUserName(userDTO.getUsername())) {
-            throw new RuntimeException(String.format(Messages.ALREADY_EXIST_WITH_USERNAME, userDTO.getUsername()));
+            throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);
         }
 
         userDTO.setUuid(UUID.randomUUID());
@@ -69,13 +65,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(UserDTO userDTO) {
-        for (UserDTO existing : storage) {
+    public UserDto update(UserDto userDTO) {
+        for (UserDto existing : storage) {
             if (existing.getUuid().equals(userDTO.getUuid())) {
                 if (!existByUserName(userDTO.getUsername())) {
                     existing.setUsername(userDTO.getUsername());
                 } else {
-                    throw new RuntimeException(String.format(Messages.ALREADY_EXIST_WITH_USERNAME, userDTO.getUsername()));
+                    throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);
                 }
 
                 if (userDTO.getAge() > 0) {
@@ -85,7 +81,7 @@ public class UserServiceImpl implements UserService {
                 break;
             }
 
-            throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, userDTO.getUuid()));
+            throw new CustomException(ExceptionMessage.NOT_FOUND_WITH_ID);
         }
 
         return userDTO;
@@ -94,7 +90,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(UUID id) {
         boolean isDeleted = false;
-        for (UserDTO userDTO : storage) {
+        for (UserDto userDTO : storage) {
             if (userDTO.getUuid().equals(id)) {
                 storage.remove(userDTO);
                 isDeleted = true;
@@ -102,7 +98,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (!isDeleted) {
-            throw new RuntimeException(String.format(Messages.NOT_FOUND_WITH_ID, id));
+            throw new CustomException(ExceptionMessage.NOT_FOUND_WITH_ID);
         }
     };
 }

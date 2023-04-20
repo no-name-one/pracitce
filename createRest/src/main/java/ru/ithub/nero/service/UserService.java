@@ -1,14 +1,14 @@
 package ru.ithub.nero.service;
 
-import ru.ithub.nero.model.UserDTO;
+import ru.ithub.nero.model.dto.UserDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    List<UserDTO> findAll();
-    UserDTO getByID(UUID id);
-    UserDTO create(UserDTO userDTO);
-    UserDTO update(UserDTO userDTO);
+    List<UserDto> findAll();
+    UserDto getByID(UUID id);
+    UserDto create(UserDto userDTO);
+    UserDto update(UserDto userDTO);
     void deleteById(UUID id);
 }
