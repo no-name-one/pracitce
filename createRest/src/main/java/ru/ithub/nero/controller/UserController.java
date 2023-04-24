@@ -1,6 +1,8 @@
 package ru.ithub.nero.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
 import ru.ithub.nero.service.UserService;
 
@@ -27,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@RequestBody UserDto userDTO) {
-        return userService.create(userDTO);
+    public CreateUserDto create(@RequestBody CreateUserDto createUserDto) {
+        return userService.create(createUserDto);
     }
 
     @PutMapping

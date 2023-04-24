@@ -1,6 +1,7 @@
 package ru.ithub.nero.service.Impl;
 
 import org.springframework.stereotype.Service;
+import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.exception.CustomException;
 import ru.ithub.nero.model.exception.ExceptionMessage;
 import ru.ithub.nero.model.dto.UserDto;
@@ -46,30 +47,31 @@ public class UserServiceImpl implements UserService {
 
     private boolean existByUserName(String username) {
         for (UserDto userDTO : storage) {
-            if (userDTO.getUsername().equals(username)) {
+            if (userDTO.getName().equals(username)) {
                 return true;
             }
         }
         return false;
     }
+
     @Override
-    public UserDto create(UserDto userDTO) {
-        if (existByUserName(userDTO.getUsername())) {
+    public CreateUserDto create(CreateUserDto createUserDto) {
+        if (existByUserName(createUserDto.getName())) {
             throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);
         }
 
-        userDTO.setUuid(UUID.randomUUID());
-        storage.add(userDTO);
+        UserDto userDto = new UserDto(UUID.randomUUID(), createUserDto.getName(), createUserDto.getAge());
+        storage.add(userDto);
 
-        return userDTO;
+        return createUserDto;
     }
 
     @Override
     public UserDto update(UserDto userDTO) {
         for (UserDto existing : storage) {
             if (existing.getUuid().equals(userDTO.getUuid())) {
-                if (!existByUserName(userDTO.getUsername())) {
-                    existing.setUsername(userDTO.getUsername());
+                if (!existByUserName(userDTO.getName())) {
+                    existing.setName(userDTO.getName());
                 } else {
                     throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);
                 }

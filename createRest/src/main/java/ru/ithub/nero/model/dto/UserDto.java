@@ -9,6 +9,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDto {
     private UUID uuid;
-    private String username;
-    private int age;
+    private String name;
+    private Integer age;
 }
