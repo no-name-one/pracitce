@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    private boolean existByUserName(String username) {
+    private boolean existByName(String name) {
         for (UserDto userDTO : storage) {
-            if (userDTO.getName().equals(username)) {
+            if (userDTO.getName().equals(name)) {
                 return true;
             }
         }
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserDto create(CreateUserDto createUserDto) {
-        if (existByUserName(createUserDto.getName())) {
+        if (existByName(createUserDto.getName())) {
             throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);
         }
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDTO) {
         for (UserDto existing : storage) {
             if (existing.getUuid().equals(userDTO.getUuid())) {
-                if (!existByUserName(userDTO.getName())) {
+                if (!existByName(userDTO.getName())) {
                     existing.setName(userDTO.getName());
                 } else {
                     throw new CustomException(ExceptionMessage.ALREADY_EXIST_WITH_USERNAME);

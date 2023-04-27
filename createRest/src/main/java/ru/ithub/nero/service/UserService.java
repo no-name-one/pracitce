@@ -1,6 +1,7 @@
 package ru.ithub.nero.service;
 
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Service;
 import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
 

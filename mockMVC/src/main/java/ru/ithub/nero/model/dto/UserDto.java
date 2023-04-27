@@ -2,26 +2,27 @@ package ru.ithub.nero.model.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
+@AllArgsConstructor
+@Builder
+public class UserDto {
+    private Long id;
 
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @NotEmpty
     private String name;
 
     @Min(value = 0, message = "Age should be grater than 0")
     @Max(value = 200, message = "Age should be between 0 and 200")
     private Integer age;
 
-    @FutureOrPresent(message = "Date should be present or future")
-    @NotEmpty(message = "Date should not be empty")
+    @FutureOrPresent
     private LocalDate date;
+
 }
