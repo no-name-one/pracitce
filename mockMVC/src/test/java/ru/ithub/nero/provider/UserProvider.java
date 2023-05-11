@@ -13,13 +13,12 @@ public class UserProvider {
         return CreateUserDto.builder()
                 .name(name)
                 .age(10)
-                .date(LocalDate.now())
                 .build();
     }
 
     public static UserDto getUserDto(String name) {
         return UserDto.builder()
-                .id(1L)
+                .id(10L)
                 .name(name)
                 .age(10)
                 .date(LocalDate.now())

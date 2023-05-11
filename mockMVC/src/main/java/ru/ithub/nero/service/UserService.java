@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UpdateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
+import ru.ithub.nero.model.exception.ExceptionMessage;
+import ru.ithub.nero.model.exception.MyException;
 import ru.ithub.nero.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -32,25 +34,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
-        UserDto userDto;
-
-        if (createUserDto.getName().equals("test")) {
-            userDto = UserDto.builder()
-                    .id(10L)
-                    .name(createUserDto.getName().concat("user"))
-                    .age(createUserDto.getAge())
-                    .date(LocalDate.now())
-                    .build();
-        } else {
-            userDto = UserDto.builder()
-                    .id(10L)
-                    .name(createUserDto.getName())
-                    .age(createUserDto.getAge())
-                    .date(LocalDate.now())
-                    .build();
-        }
-
-        userRepository.save(userDto);
+        UserDto userDto = userRepository.create(createUserDto);
         return userDto;
     }
 
@@ -68,10 +52,10 @@ public class UserService implements IUserService {
                         .build();
                 userRepository.update(id, updateUserDto);
             } else {
-                throw new RuntimeException("user is test");
+                throw new MyException(ExceptionMessage.USER_IS_TEST);
             }
         } else {
-            throw new RuntimeException("Not found user with id: " + id);
+            throw new MyException(ExceptionMessage.NOT_FOUND_WITH_ID);
         }
         return userDto;
     }

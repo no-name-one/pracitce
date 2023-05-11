@@ -1,6 +1,7 @@
 package ru.ithub.nero.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UpdateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
 
@@ -19,6 +20,8 @@ public interface IUserRepository {
     ArrayList<UserDto> getStorage();
 
     void save(UserDto userDto);
+
+    UserDto create(CreateUserDto createUserDto);
 
     UserDto update(Long id, UpdateUserDto updateUserDto);
 
