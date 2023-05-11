@@ -4,7 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="init" author="vdsimako">
-
+    <changeSet id="add-tag-1.0" author="nero">
+        <tagDatabase tag="v1.0"/>
     </changeSet>
+    
+    <include file="02--10.05.2023--createUser.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
