@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/liquibase_example
+    url: "jdbc:postgresql://localhost:5432/users"
     driver-class-name: org.postgresql.Driver
-    username: ""
-    password: ""
+    username: "testuser"
+    password: "test"
   jpa:
     hibernate:
       ddl-auto: none
