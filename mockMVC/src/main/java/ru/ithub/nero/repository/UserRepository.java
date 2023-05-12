@@ -9,11 +9,12 @@ import ru.ithub.nero.model.exception.MyException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class UserRepository implements IUserRepository{
-    private static ArrayList<UserDto> storage = new ArrayList<>();
+    private final static ArrayList<UserDto> storage = new ArrayList<>();
     {
         storage.add(new UserDto(1L, "Sun", 11, LocalDate.now()));
         storage.add(new UserDto(2L, "Moon", 12, LocalDate.now()));
@@ -24,8 +25,7 @@ public class UserRepository implements IUserRepository{
     public Optional<UserDto> findUserById(Long id) {
         for (UserDto userDto : storage) {
             if (userDto.getId().equals(id)) {
-                Optional<UserDto> optionalUserDto = Optional.of(userDto);
-                return optionalUserDto;
+                return Optional.of(userDto);
             }
         }
         throw new MyException(ExceptionMessage.NOT_FOUND_WITH_ID);
@@ -61,8 +61,14 @@ public class UserRepository implements IUserRepository{
         storage.add(userDto);
     }
 
+    public void saveAll(List<UserDto> users) {
+        for (UserDto user : users) {
+            save(user);
+        }
+    }
+
     @Override
-    public UserDto create(CreateUserDto createUserDto) {
+    public Optional<UserDto> create(CreateUserDto createUserDto) {
         UserDto userDto;
 
         if (createUserDto.getName().equals("test")) {
@@ -83,7 +89,7 @@ public class UserRepository implements IUserRepository{
 
         save(userDto);
 
-        return userDto;
+        return Optional.of(userDto);
     }
 
     @Override
@@ -94,7 +100,7 @@ public class UserRepository implements IUserRepository{
                 if (!existByName(updateUserDto.getName())) {
                     userDto.setName(updateUserDto.getName());
                 } else {
-                    throw new MyException(ExceptionMessage.ALREADY_EXIST_WITH_USER_NAME);
+                    throw new MyException(ExceptionMessage.ALREADY_EXIST_WITH_NAME);
                 }
 
                 userDto.setAge(updateUserDto.getAge());
@@ -136,5 +142,9 @@ public class UserRepository implements IUserRepository{
             throw new MyException(ExceptionMessage.NOT_FOUND_WITH_ID);
         }
         return deletedUserDto;
+    }
+
+    public void deleteAll() {
+        storage.removeAll(storage);
     }
 }

@@ -26,16 +26,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<UserDto> getUser(Long id) {
-        Optional<UserDto> userDto = userRepository.findUserById(id);
-        return userDto;
+    public UserDto getUser(Long id) {
+        return userRepository.findUserById(id).orElseThrow(() -> new MyException(ExceptionMessage.NOT_FOUND_WITH_ID));
     }
-
 
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
-        UserDto userDto = userRepository.create(createUserDto);
-        return userDto;
+        return userRepository.create(createUserDto).orElseThrow(() -> new MyException(ExceptionMessage.ALREADY_EXIST_WITH_NAME));
     }
 
     @Override
@@ -62,10 +59,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto deleteUser(Long id) {
-        UserDto userDto;
-        userDto = userRepository.delete(id);
-
-        return userDto;
+        return userRepository.delete(id);
     }
 
 

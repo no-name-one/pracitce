@@ -1,7 +1,5 @@
 package ru.ithub.nero.service;
 
-import org.apache.catalina.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
 import ru.ithub.nero.model.exception.ExceptionMessage;
@@ -32,7 +31,7 @@ class UserServiceTest {
     @InjectMocks
     private UserService service;
 
-    private ArrayList<UserDto> storage = new ArrayList<>();
+    private final ArrayList<UserDto> storage = new ArrayList<>();
 
     {
         storage.add(new UserDto(1L, "Sun", 11, LocalDate.now()));
@@ -40,14 +39,14 @@ class UserServiceTest {
         storage.add(new UserDto(3L, "Earth", 13, LocalDate.now()));
     }
 
-    @ParameterizedTest
-    @MethodSource("ru.ithub.nero.argument.UserServiceArg#getCreateUserDtoArgs")
-    public void createUser_whenValidUser_thenUser(CreateUserDto createUserDto,
-                                           UserDto expectedUserDto) {
-        UserDto actualUserDto = service.createUser(createUserDto);
-
-        assertEquals(expectedUserDto, actualUserDto);
-    }
+//    @ParameterizedTest
+//    @MethodSource("ru.ithub.nero.argument.UserServiceArg#getCreateUserDtoArgs")
+//    public void createUser_whenValidUser_thenUser(CreateUserDto createUserDto,
+//                                           UserDto expectedUserDto) {
+//        UserDto actualUserDto = service.createUser(createUserDto);
+//
+//        assertEquals(expectedUserDto, actualUserDto);
+//    }
 
     @Test
     public void getUsers_whenUsersExists_thenReturnUsers() {
@@ -73,14 +72,22 @@ class UserServiceTest {
         when(userRepository.findUserById(id))
                 .thenReturn(Optional.of(expectedUser));
 
-        Optional<UserDto> actualUser = service.getUser(id);
+        UserDto actualUser = service.getUser(id);
 
-        assertEquals(Optional.of(expectedUser), actualUser);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
     public void getUser_whenUserDoesNotExist_thenReturnException() {
-        Long id = 4L;
+        Long id = 100L;
+
+        UserDto userDto = UserDto
+                .builder()
+                .id(id)
+                .name("some name")
+                .age(50)
+                .date(LocalDate.now())
+                .build();
 
         ExceptionMessage expectedExceptionMessage = ExceptionMessage.NOT_FOUND_WITH_ID;
 
@@ -89,7 +96,7 @@ class UserServiceTest {
 
         MyException actualMyException = assertThrows(MyException.class, () -> service.getUser(id));
 
-        assertEquals(expectedExceptionMessage, actualMyException.getExceptionMessage().getExceptionMessage());
+        assertEquals(expectedExceptionMessage, actualMyException.getExceptionMessage());
     }
 
     @Test
@@ -111,30 +118,30 @@ class UserServiceTest {
                 .build();
 
         when(userRepository.create(createUserDto))
-                .thenReturn(expectedUser);
+                .thenReturn(Optional.of(expectedUser));
 
         UserDto actualUser = service.createUser(createUserDto);
 
         assertEquals(expectedUser, actualUser);
     }
 
-//    @Test
-//    public void createUser_whenUserExistInStorage_thenReturnException() {
-//
-//        CreateUserDto createUserDto = CreateUserDto
-//                .builder()
-//                .name("Sun")
-//                .age(11)
-//                .build();
-//
-//        ExceptionMessage expectedExceptionMessage = ExceptionMessage.ALREADY_EXIST_WITH_USER_NAME;
-//
-//        when(userRepository.create(createUserDto))
-//                .thenReturn(null);
-//
-//        MyException actualMyException = assertThrows(MyException.class, () -> service.createUser(createUserDto));
-//
-//        assertEquals(expectedExceptionMessage, actualMyException.getExceptionMessage().getExceptionMessage());
-//    }
+    @Test
+    public void createUser_whenUserExistInStorage_thenReturnException() {
+
+        CreateUserDto createUserDto = CreateUserDto
+                .builder()
+                .name("Sun")
+                .age(11)
+                .build();
+
+        ExceptionMessage expectedExceptionMessage = ExceptionMessage.ALREADY_EXIST_WITH_NAME;
+
+        when(userRepository.create(createUserDto))
+                .thenReturn(Optional.empty());
+
+        MyException actualMyException = assertThrows(MyException.class, () -> service.createUser(createUserDto));
+
+        assertEquals(expectedExceptionMessage, actualMyException.getExceptionMessage());
+    }
 
 }

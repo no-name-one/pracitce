@@ -21,7 +21,7 @@ public interface IUserRepository {
 
     void save(UserDto userDto);
 
-    UserDto create(CreateUserDto createUserDto);
+    Optional<UserDto> create(CreateUserDto createUserDto);
 
     UserDto update(Long id, UpdateUserDto updateUserDto);
 

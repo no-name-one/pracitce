@@ -24,5 +24,4 @@ public class UserDto {
 
     @FutureOrPresent
     private LocalDate date;
-
 }
