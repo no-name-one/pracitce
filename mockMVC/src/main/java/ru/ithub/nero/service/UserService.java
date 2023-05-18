@@ -40,9 +40,8 @@ public class UserService implements IUserService {
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
         if (!existByName(createUserDto.getName())) {
-            User mapperEntity = mapper.toEntity(createUserDto);
-            Optional<User> user = Optional.of(userRepository.save(mapperEntity));
-            return mapper.toUserDto(user.orElseThrow(() -> new MyException(ExceptionMessage.ALREADY_EXIST_WITH_NAME)));
+            User user = mapper.toEntity(createUserDto);
+            return mapper.toUserDto(userRepository.save(user));
         }
         throw new MyException(ExceptionMessage.ALREADY_EXIST_WITH_NAME);
     }
