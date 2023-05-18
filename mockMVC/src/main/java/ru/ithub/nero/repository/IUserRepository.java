@@ -1,29 +1,10 @@
 package ru.ithub.nero.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
-import ru.ithub.nero.model.dto.CreateUserDto;
-import ru.ithub.nero.model.dto.UpdateUserDto;
-import ru.ithub.nero.model.dto.UserDto;
-
-import java.util.ArrayList;
-import java.util.Optional;
-
+import ru.ithub.nero.model.entity.User;
 
 @Repository
-public interface IUserRepository {
-    Optional<UserDto> findUserById(Long id);
-
-    boolean existByName(String name);
-
-    boolean existById(Long id);
-
-    ArrayList<UserDto> getStorage();
-
-    void save(UserDto userDto);
-
-    Optional<UserDto> create(CreateUserDto createUserDto);
-
-    UserDto update(Long id, UpdateUserDto updateUserDto);
-
-    UserDto delete(Long id);
+public interface IUserRepository extends JpaRepository<User, Long> {
 }

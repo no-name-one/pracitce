@@ -1,10 +1,7 @@
 package ru.ithub.nero.model.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -16,6 +13,7 @@ public class UserDto {
     private Long id;
 
     @NotEmpty
+    @ToString.Exclude
     private String name;
 
     @Min(value = 0, message = "Age should be grater than 0")

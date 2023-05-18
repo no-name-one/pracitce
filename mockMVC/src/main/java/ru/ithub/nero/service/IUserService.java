@@ -5,10 +5,11 @@ import ru.ithub.nero.model.dto.UpdateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
-    ArrayList<UserDto> getUsers();
+    List<UserDto> getUsers();
     UserDto getUser(Long id);
     UserDto createUser(CreateUserDto createUserDto);
 

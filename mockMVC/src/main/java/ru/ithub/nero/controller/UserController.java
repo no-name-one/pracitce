@@ -2,13 +2,16 @@ package ru.ithub.nero.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.ithub.nero.model.dto.CreateUserDto;
 import ru.ithub.nero.model.dto.UpdateUserDto;
 import ru.ithub.nero.model.dto.UserDto;
+import ru.ithub.nero.model.entity.User;
 import ru.ithub.nero.service.IUserService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -17,15 +20,15 @@ import java.util.Optional;
 public class UserController {
     private final IUserService service;
 
-    public UserController(IUserService service) {
+    public UserController(@Qualifier("userService") IUserService service) {
         this.service = service;
     }
 
     @GetMapping
-    public ArrayList<UserDto> getUsers() {
+    public List<UserDto> getUsers() {
         log.info("Get request for get users");
 
-        ArrayList<UserDto> users = service.getUsers();
+        List<UserDto> users = service.getUsers();
 
         log.info("Get response for get users: {}", users);
 
