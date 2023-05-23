@@ -10,5 +10,4 @@
     
     <include file="02--10.05.2023--createUser.xml" relativeToChangelogFile="true"/>
     <include file="03--15.05.2023--insertUsers.xml" relativeToChangelogFile="true"/>
-    <include file="04--15.05.2023--insertUser.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -4,6 +4,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: testuser
     password: "test"
+#
+#spring:
+#  datasource:
+#    own:
+#      username: ${CONTAINER.USERNAME}
+#      password: ${CONTAINER.PASSWORD}
+#      url: ${CONTAINER.URL}
   jpa:
     hibernate:
       ddl-auto: none
