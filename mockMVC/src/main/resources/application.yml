@@ -4,15 +4,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: testuser
     password: "test"
-#
-#spring:
-#  datasource:
-#    own:
-#      username: ${CONTAINER.USERNAME}
-#      password: ${CONTAINER.PASSWORD}
-#      url: ${CONTAINER.URL}
   jpa:
     hibernate:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+        - "5672:5672"
+        - "15672:15672"
