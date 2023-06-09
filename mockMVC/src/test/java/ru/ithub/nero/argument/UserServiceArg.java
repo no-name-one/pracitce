@@ -9,7 +9,7 @@ public class UserServiceArg {
     public static Stream<Arguments> getCreateUserDtoArgs() {
         return Stream.of(
                 Arguments.of(
-                        UserProvider.getCreateUserDto("test"),
+                        UserProvider.getCreateUserDto("testuser"),
                         UserProvider.getUserDto("testuser")
                 ),
                 Arguments.of(
