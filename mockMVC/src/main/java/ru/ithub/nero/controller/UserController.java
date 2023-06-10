@@ -32,29 +32,29 @@ public class UserController {
         this.template = template;
     }
 
-    @GetMapping("/emit/error")
-    @ResponseBody
-    public String error() {
-        logger.info("Emit as error");
-        template.convertAndSend("error", "Error");
-        return "Emit as error";
-    }
-
-    @GetMapping("/emit/info")
-    @ResponseBody
-    public String info() {
-        logger.info("Emit as info");
-        template.convertAndSend("info", "Info");
-        return "Emit as info";
-    }
-
-    @GetMapping("/emit/warning")
-    @ResponseBody
-    public String warning() {
-        logger.info("Emit as warning");
-        template.convertAndSend("warning", "Warning");
-        return "Emit as warning";
-    }
+//    @GetMapping("/emit/error")
+//    @ResponseBody
+//    public String error() {
+//        logger.info("Emit as error");
+//        template.convertAndSend("error", "Error");
+//        return "Emit as error";
+//    }
+//
+//    @GetMapping("/emit/info")
+//    @ResponseBody
+//    public String info() {
+//        logger.info("Emit as info");
+//        template.convertAndSend("info", "Info");
+//        return "Emit as info";
+//    }
+//
+//    @GetMapping("/emit/warning")
+//    @ResponseBody
+//    public String warning() {
+//        logger.info("Emit as warning");
+//        template.convertAndSend("warning", "Warning");
+//        return "Emit as warning";
+//    }
 
     @GetMapping
     public List<UserDto> getUsers() {

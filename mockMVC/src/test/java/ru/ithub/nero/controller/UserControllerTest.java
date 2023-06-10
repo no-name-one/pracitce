@@ -31,7 +31,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -85,9 +86,60 @@ class UserControllerTest {
         mockMvc.perform(get("/user")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(3));
 
+    }
+
+    @Test
+    public void getUser_whenUserExist_thenReturnUser() throws Exception {
+        mockMvc.perform(get("/user/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Tom"));
+    }
+
+//    @Test
+//    public void createUser_whenUserDoesNotExist_thenReturnUser() throws Exception {
+//        String requestBody = "{\"name\":\"created User\",\"age\":20}";
+//
+//        mockMvc.perform(post("/user")
+//                        .content(requestBody)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andExpect(content()
+//                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("created User"));
+//    }
+
+//    @Test
+//    public void updateUser_whenUserExist_thenReturnUser() throws Exception {
+//        String requestBody2 = "{\"name\":\"updated name\",\"age\":20}";
+//
+//        mockMvc.perform(put("/user/{id}", 3)
+//                        .content(requestBody2)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andExpect(content()
+//                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("updated name"));
+//    }
+
+    @Test
+    public void deleteUser_whenUserExist_thenReturnUser() throws Exception {
+        mockMvc.perform(delete("/user/{id}", 3)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Carry"));
     }
 }
