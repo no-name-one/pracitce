@@ -1,0 +1,15 @@
+#spring:
+#  datasource:
+#    url: jdbc:postgresql:15-alpines
+#    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#  liquibase:
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    drop-first: true
+#  rabbitmq:
+#    image: rabbitmq:management
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"

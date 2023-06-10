@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/v1.0/01--27.04.2023--changelog.xml
+      file: db/changelog/v1.0/02--10.05.2023--createUser.xml
+  - include:
+      file: db/changelog/v1.0/03--15.05.2023--insertUsers.xml

@@ -13,5 +13,7 @@
             <column name="age" type="int"/>
             <column name="date" type="date"/>
         </createTable>
+
+        <createSequence sequenceName="user_seq"/>
     </changeSet>
 </databaseChangeLog>

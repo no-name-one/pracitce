@@ -6,19 +6,19 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet id="addUsers" author="nero">
         <insert tableName="user">
-            <column name="id" valueNumeric="1"/>
+            <column name="id" valueSequenceNext="user_seq"/>
             <column name="name" value="Tom"/>
             <column name="age" valueNumeric="11"/>
             <column name="date" valueDate="now()"/>
         </insert>
         <insert tableName="user">
-            <column name="id" valueNumeric="2"/>
+            <column name="id" valueSequenceNext="user_seq"/>
             <column name="name" value="Jerry"/>
             <column name="age" valueNumeric="12"/>
             <column name="date" valueDate="now()"/>
         </insert>
         <insert tableName="user">
-            <column name="id" valueNumeric="3"/>
+            <column name="id" valueSequenceNext="user_seq"/>
             <column name="name" value="Carry"/>
             <column name="age" valueNumeric="13"/>
             <column name="date" valueDate="now()"/>
